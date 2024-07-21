@@ -20,16 +20,16 @@ public class Appointments {
     @Column
     private long id;
 
-    @Column
+    @Column(name = "dateTime")
     private LocalDateTime dateTime;
 
-    @Column
+    @Column(name = "typeOfConsultation")
     private String typeOfConsultation;
 
-    @Column
+    @Column(name = "motif")
     private String motif;
 
-    @Column
+    @Column(name = "state")
     private String state;
 
     @ManyToOne

@@ -18,27 +18,27 @@ public class Patient {
     @Column
     private long id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "age")
     private int age;
 
-    @Column
+    @Column(name = "race")
     private String race;
 
-    @Column
+    @Column(name = "gender")
     private String gender;
 
-    @Column
+    @Column(name = "numberId")
     private String numberId;
 
-    @Column
+    @Column(name = "tutorIsname")
     private String tutorIsName;
 
-    @Column
+    @Column(name = "tutorIsLastName")
     private String tutorIsLastName;
 
-    @Column
+    @Column(name = "tutorPhone")
     private String tutorPhone;
 }
