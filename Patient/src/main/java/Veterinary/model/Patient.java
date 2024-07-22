@@ -33,7 +33,7 @@ public class Patient {
     @Column(name = "numberId")
     private String numberId;
 
-    @Column(name = "tutorIsname")
+    @Column(name = "tutorIsName")
     private String tutorIsName;
 
     @Column(name = "tutorIsLastName")
