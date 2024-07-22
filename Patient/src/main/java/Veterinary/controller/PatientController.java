@@ -13,7 +13,7 @@ public class PatientController {
     @Autowired
     PatientService patientService;
 
-    @PutMapping(path = "/Api/{id}")
+    @PutMapping(path = "/api/{id}")
     private void updatePatient(@RequestBody Patient patient, @PathVariable int id){
         patientService.updatePatient(patient, id);
     }
