@@ -27,8 +27,8 @@ public class Patient {
     @Column(name = "race")
     private String race;
 
-    @Column(name = "gender")
-    private String gender;
+    @Column(name = "sex")
+    private String sex;
 
     @Column(name = "numberId")
     private String numberId;
