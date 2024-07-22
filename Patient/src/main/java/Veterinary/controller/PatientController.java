@@ -1,5 +1,6 @@
 package Veterinary.controller;
 
+import Veterinary.model.Patient;
 import Veterinary.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,9 +15,30 @@ import Veterinary.model.Patient;
 @CrossOrigin(origins = "*")
 
 public class PatientController {
+
     @Autowired
     PatientService patientService;
 
+    @GetMapping
+    public ResponseEntity<List<Patient>> getAllPatients() {
+        try {
+            List<Patient> patients = patientService.getAllPatients();
+            return ResponseEntity.ok(patients);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
+        try {
+            Optional<Patient> patient = patientService.getPatientById(id);
+            return patient.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
     @DeleteMapping(path = "/patients")
     public void deletePatient(@RequestBody Patient patient){
     }
