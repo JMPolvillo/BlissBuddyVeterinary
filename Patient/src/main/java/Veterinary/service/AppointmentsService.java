@@ -11,9 +11,12 @@ import java.util.Optional;
 @Service
 
 public class AppointmentsService {
-
     @Autowired
     AppointmentsRepository appointmentsRepository;
+
+    public Appointments createAppointment(Appointments appointment) {
+        return appointmentsRepository.save(appointment);
+    }
 
 public void updateAppointments(Appointments appointments, int id){
     appointments.setId(id);
