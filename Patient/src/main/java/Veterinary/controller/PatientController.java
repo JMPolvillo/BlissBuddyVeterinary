@@ -16,9 +16,13 @@ import Veterinary.model.Patient;
 @CrossOrigin(origins = "*")
 
 public class PatientController {
-
     @Autowired
     PatientService patientService;
+
+    @PostMapping(path = "/patients")
+    public Patient createPatient(@RequestBody Patient patient) {
+        return patientService.createPatient(patient);
+    }
 
     @PutMapping(path = "/api/{id}")
     private void updatePatient(@RequestBody Patient patient, @PathVariable int id){

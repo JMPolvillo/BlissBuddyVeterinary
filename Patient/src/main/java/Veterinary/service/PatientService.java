@@ -10,9 +10,12 @@ import java.util.Optional;
 
 @Service
 public class PatientService {
-
     @Autowired
-    private PatientRepository patientRepository;
+    PatientRepository patientRepository;
+
+    public Patient createPatient(Patient patient) {
+        return patientRepository.save(patient);
+    }
 
 public List<Patient> getAllPatients() {
     try {

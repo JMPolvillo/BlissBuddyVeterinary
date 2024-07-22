@@ -13,9 +13,15 @@ import java.util.Optional;
 @RequestMapping("/api/appointments")
 @CrossOrigin(origins = "*")
 public class AppointmentsController {
-
     @Autowired
     AppointmentsService appointmentsService;
+
+    @PostMapping(path = "/appointments")
+    public Appointments createAppointments(@RequestBody Appointments appointment) {
+        return appointmentsService.createAppointment(appointment);
+    }
+
+}
 
     @PutMapping(path = "/api/{id}")
     public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id){
