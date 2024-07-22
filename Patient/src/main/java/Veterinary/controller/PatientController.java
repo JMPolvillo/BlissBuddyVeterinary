@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import Veterinary.model.Patient;
+
 
 @RestController
 @RequestMapping("/")
@@ -21,7 +21,7 @@ public class PatientController {
     PatientService patientService;
 
     @PutMapping(path = "/api/{id}")
-    private void updatePatient(@RequestBody Patient patient, @PathVariable int id){
+    private void updatePatient(@RequestBody Patient patient, @PathVariable int id) {
         patientService.updatePatient(patient, id);
     }
 
@@ -45,8 +45,9 @@ public class PatientController {
             return ResponseEntity.status(500).body(null);
         }
     }
+
     @DeleteMapping(path = "/patients")
-    public void deletePatient(@RequestBody Patient patient){
+    public void deletePatient(@RequestBody Patient patient) {
     }
 
     //@DeleteMapping (path = "/patients/{id}")
