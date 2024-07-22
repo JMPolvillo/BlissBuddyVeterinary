@@ -12,6 +12,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/appointments")
 @CrossOrigin(origins = "*")
+
 public class AppointmentsController {
     @Autowired
     AppointmentsService appointmentsService;
@@ -20,8 +21,6 @@ public class AppointmentsController {
     public Appointments createAppointments(@RequestBody Appointments appointment) {
         return appointmentsService.createAppointment(appointment);
     }
-
-}
 
     @PutMapping(path = "/api/{id}")
     public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id) {
