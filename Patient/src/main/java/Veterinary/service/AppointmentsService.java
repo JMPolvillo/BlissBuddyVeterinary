@@ -32,7 +32,7 @@ public void updateAppointments(Appointments appointments, int id){
         }
     }
 
-    public Optional<Appointments> getAppointmentById(Long id) {
+    public Optional<Appointments> getAppointmentById(int id) {
         try {
             return appointmentsRepository.findById(id);
         } catch (Exception e) {

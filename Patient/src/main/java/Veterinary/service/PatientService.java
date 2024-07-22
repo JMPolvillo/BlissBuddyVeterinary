@@ -25,14 +25,14 @@ public List<Patient> getAllPatients() {
     }
 }
 
-public Optional<Patient> getPatientById(Long id) {
+public Optional<Patient> getPatientById(int id) {
     try {
         return patientRepository.findById(id);
     } catch (Exception e) {
         throw new RuntimeException("Error retrieving patient by id", e);
     }
-    PatientRepository patientRepository;
 
+}
 public void updatePatient(Patient patient, int id){
     patient.setId(id);
     PatientRepository.findById(patient);
