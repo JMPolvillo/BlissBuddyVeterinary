@@ -18,20 +18,20 @@ public class AppointmentsController {
     AppointmentsService appointmentsService;
 
     @PutMapping(path = "/api/{id}")
-    public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id){
-      appointmentsService.updateAppointments(appointments, id);
+    public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id) {
+        appointmentsService.updateAppointments(appointments, id);
     }
 
 
     @DeleteMapping(path = "/appointments")
-    public void deleteAppointment(@RequestBody Appointments appointments){
+    public void deleteAppointment(@RequestBody Appointments appointments) {
     }
 
     //@DeleteMapping(path = "/appointments/{id}")
     //public void deleteAppointmentById(int id){
     //}
 
-}
+
     @GetMapping
     public ResponseEntity<List<Appointments>> getAllAppointments() {
         try {
