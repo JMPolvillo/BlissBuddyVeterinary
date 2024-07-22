@@ -21,7 +21,7 @@ public class AppointmentsController {
         return appointmentsService.createAppointment(appointment);
     }
 
-}
+
 
     @PutMapping(path = "/api/{id}")
     public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id) {

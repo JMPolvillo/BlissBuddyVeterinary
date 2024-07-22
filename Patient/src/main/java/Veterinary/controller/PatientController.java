@@ -3,12 +3,16 @@ package Veterinary.controller;
 import Veterinary.model.Patient;
 import Veterinary.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -26,7 +30,7 @@ public class PatientController {
 
     @PutMapping(path = "/api/{id}")
     private void updatePatient(@RequestBody Patient patient, @PathVariable int id) {
-        patientService.updatePatient(patient, id);
+       patientService.updatePatient(patient, id);
     }
 
     @GetMapping
@@ -40,7 +44,7 @@ public class PatientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
+    public ResponseEntity<Patient> getPatientById(@PathVariable int id) {
         try {
             Optional<Patient> patient = patientService.getPatientById(id);
             return patient.map(ResponseEntity::ok)
@@ -54,8 +58,8 @@ public class PatientController {
     public void deletePatient(@RequestBody Patient patient) {
     }
 
-    //@DeleteMapping (path = "/patients/{id}")
-    //public void deletePatientById(int id){
-    //}
+    @DeleteMapping (path = "/patients/{id}")
+    public void deletePatientById(int id){
+    }
 
 }
