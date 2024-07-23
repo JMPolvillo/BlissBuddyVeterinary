@@ -3,23 +3,21 @@ package Veterinary;
 import Veterinary.controller.PatientController;
 import Veterinary.model.Patient;
 import Veterinary.service.PatientService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,7 +33,6 @@ public class PatientControllerTests {
 	private MockMvc mockMvc;
 	private Patient patientBolita;
 	private Patient patientLia;
-	private ArrayList<Patient> patientList;
 
 	@BeforeEach
 	void setUp() {
@@ -66,18 +63,22 @@ public class PatientControllerTests {
 	}
 
 	@Test
-	public void test_deletePatientsById() throws Exception {
-		when(patientService.deletePatientById(1)).thenReturn(true);
+	public void test_getPatientById() throws Exception {
+		when(patientService.getPatientById(2)).thenReturn(Optional.of(patientLia));
 
-		mockMvc.perform(delete("/patients/1"))
+		ObjectMapper objectMapper = new ObjectMapper();
+		String patientJson = objectMapper.writeValueAsString(patientLia);
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/2"))
 				.andExpect(status().isOk())
-				.andExpect(content().string("Patient with id" + 1 + "was deleted"));
+				.andExpect(content().json(patientJson));
 
-		when(patientService.deletePatientById(1)).thenReturn(false);
+		when(patientService.getPatientById(1)).thenReturn(Optional.of(patientBolita));
 
-		mockMvc.perform(delete("/patients/1"))
+		patientJson = objectMapper.writeValueAsString(patientBolita);
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/1"))
 				.andExpect(status().isOk())
-				.andExpect(content().string("Error, we have a problem to delete patient with id 1"));
+				.andExpect(content().json(patientJson));
 	}
-
 }
