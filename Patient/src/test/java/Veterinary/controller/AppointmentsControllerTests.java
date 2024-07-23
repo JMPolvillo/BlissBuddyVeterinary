@@ -1,20 +1,20 @@
-package Veterinary;
+package Veterinary.controller;
 
-import Veterinary.controller.AppointmentsController;
+import Veterinary.model.Appointments;
+import Veterinary.model.Patient;
 import Veterinary.service.AppointmentsService;
+import Veterinary.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig
 public class AppointmentsControllerTests {
@@ -25,8 +25,13 @@ public class AppointmentsControllerTests {
     @InjectMocks
     private AppointmentsController appointmentsController;
 
+    private MockMvc mockMvc;
+    private Appointments appointment1;
+    private Appointments appointment2;
+    private ArrayList<Appointments> appointmentList;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-    }
+        mockMvc = MockMvcBuilders.standaloneSetup(appointmentsController).build();
 }
