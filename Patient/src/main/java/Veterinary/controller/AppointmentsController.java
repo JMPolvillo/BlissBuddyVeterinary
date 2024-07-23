@@ -22,8 +22,6 @@ public class AppointmentsController {
         return appointmentsService.createAppointment(appointment);
     }
 
-
-
     @PutMapping(path = "/api/{id}")
     public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id) {
         appointmentsService.updateAppointments(appointments, id);
@@ -34,10 +32,9 @@ public class AppointmentsController {
     public void deleteAppointment(@RequestBody Appointments appointments) {
     }
 
-    //@DeleteMapping(path = "/appointments/{id}")
-    //public void deleteAppointmentById(int id){
-    //}
-
+    @DeleteMapping(path = "/appointments/{id}")
+    public void deleteAppointmentById(int id){
+    }
 
     @GetMapping
     public ResponseEntity<List<Appointments>> getAllAppointments() {
@@ -50,7 +47,7 @@ public class AppointmentsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Appointments> getAppointmentById(@PathVariable Long id) {
+    public ResponseEntity<Appointments> getAppointmentById(@PathVariable int id) {
         try {
             Optional<Appointments> appointment = appointmentsService.getAppointmentById(id);
             return appointment.map(ResponseEntity::ok)

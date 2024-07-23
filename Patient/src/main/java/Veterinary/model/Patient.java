@@ -31,7 +31,7 @@ public class Patient {
     private String sex;
 
     @Column(name = "numberId")
-    private String numberId;
+    private int numberId;
 
     @Column(name = "tutorIsName")
     private String tutorIsName;
@@ -40,5 +40,5 @@ public class Patient {
     private String tutorIsLastName;
 
     @Column(name = "tutorPhone")
-    private String tutorPhone;
+    private int tutorPhone;
 }

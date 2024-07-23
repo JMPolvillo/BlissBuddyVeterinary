@@ -4,7 +4,6 @@ import Veterinary.Repository.AppointmentsRepository;
 import Veterinary.model.Appointments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -43,9 +42,10 @@ public void updateAppointments(Appointments appointments, int id){
         appointmentsRepository.delete(newAppointment);
     }
 
-    //public void deleteAppointmentById(Long id){
-        //appointmentsRepository.deleteById(id);
-    //}
+    public void deleteAppointmentById(int id){
+        appointmentsRepository.deleteById(id);
+    }
+    }
 
 
-}
+
