@@ -40,10 +40,16 @@ public Optional<Patient> getPatientById(int id) {
         public void deletePatient (Patient patient){
             patientRepository.delete(patient);
         }
-        public void deletePatientById ( int id){
+
+    public boolean deletePatientById(int id) {
+        try {
             patientRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
         }
 
 
-}
+
+    }
 

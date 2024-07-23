@@ -42,10 +42,16 @@ public void updateAppointments(Appointments appointments, int id){
         appointmentsRepository.delete(newAppointment);
     }
 
-    public void deleteAppointmentById(int id){
-        appointmentsRepository.deleteById(id);
+    public boolean deleteAppointmentById(int id) {
+        try {
+            appointmentsRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
-    }
+}
 
 
 

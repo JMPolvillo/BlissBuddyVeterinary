@@ -19,6 +19,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringJUnitConfig
 public class PatientControllerTests {
@@ -63,5 +66,18 @@ public class PatientControllerTests {
 	}
 
 	@Test
-	void updatePatient
+	public void test_deletePatientsById() throws Exception {
+		when(patientService.deletePatientById(1)).thenReturn(true);
+
+		mockMvc.perform(delete("/patients/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().string("patient with id" + 1 + "was deleted"));
+
+		when(patientService.deletePatientById(1)).thenReturn(false);
+
+		mockMvc.perform(delete("/patients/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Error, we have a problem to deleted patient with id 1"));
+	}
+
 }
