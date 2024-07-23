@@ -43,10 +43,10 @@ public class PatientControllerTests {
 		patientBolita.setId(1);
 		patientBolita.setName("Bolita");
 		patientBolita.setAge(4);
-		patientBolita.setSex("Hembra");
+		patientBolita.setSex("Male");
 		patientBolita.setRace("Belier");
 		patientBolita.setNumberId(4538);
-		patientBolita.setTutorIsName("Maria");
+		patientBolita.setTutorIsName("Isabé");
 		patientBolita.setTutorIsLastName("Rodriguez");
 		patientBolita.setTutorPhone(658986742);
 
@@ -54,7 +54,7 @@ public class PatientControllerTests {
 		patientLia.setId(2);
 		patientLia.setName("Lia");
 		patientLia.setAge(5);
-		patientLia.setSex("Hembra");
+		patientLia.setSex("Female");
 		patientLia.setRace("Water dog");
 		patientLia.setNumberId(4539);
 		patientLia.setTutorIsName("Kratos");

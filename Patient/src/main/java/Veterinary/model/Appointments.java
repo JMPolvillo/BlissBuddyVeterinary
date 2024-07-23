@@ -30,7 +30,7 @@ public class Appointments {
     private String motif;
 
     @Column(name = "state")
-    private String state;
+    private String status;
 
     @ManyToOne
     private Patient patient;
