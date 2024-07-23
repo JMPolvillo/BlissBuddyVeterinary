@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig
-public class PatientControllerTests {
+class PatientControllerTests {
 
 	@Mock
 	private PatientService patientService;
