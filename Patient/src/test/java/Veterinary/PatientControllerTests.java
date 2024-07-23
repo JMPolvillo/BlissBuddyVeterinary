@@ -71,13 +71,13 @@ public class PatientControllerTests {
 
 		mockMvc.perform(delete("/patients/1"))
 				.andExpect(status().isOk())
-				.andExpect(content().string("patient with id" + 1 + "was deleted"));
+				.andExpect(content().string("Patient with id" + 1 + "was deleted"));
 
 		when(patientService.deletePatientById(1)).thenReturn(false);
 
 		mockMvc.perform(delete("/patients/1"))
 				.andExpect(status().isOk())
-				.andExpect(content().string("Error, we have a problem to deleted patient with id 1"));
+				.andExpect(content().string("Error, we have a problem to delete patient with id 1"));
 	}
 
 }

@@ -17,39 +17,40 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
-public List<Patient> getAllPatients() {
-    try {
-        return patientRepository.findAll();
-    } catch (Exception e) {
-        throw new RuntimeException("Error retrieving patients", e);
-    }
-}
-
-public Optional<Patient> getPatientById(int id) {
-    try {
-        return patientRepository.findById(id);
-    } catch (Exception e) {
-        throw new RuntimeException("Error retrieving patient by id", e);
-    }
-}
-        public void updatePatient (Patient patient,int id){
-            patient.setId(id);
-            PatientRepository.findById(patient);
+    public List<Patient> getAllPatients() {
+        try {
+            return patientRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving patients", e);
         }
+    }
 
-        public void deletePatient (Patient patient){
-            patientRepository.delete(patient);
+    public Optional<Patient> getPatientById(int id) {
+        try {
+            return patientRepository.findById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving patient by id", e);
         }
+    }
+
+    public void updatePatient(Patient patient, int id) {
+        patient.setId(id);
+        PatientRepository.findById(patient);
+    }
+
+    public void deletePatient(Patient patient) {
+        patientRepository.delete(patient);
+    }
 
     public boolean deletePatientById(int id) {
         try {
             patientRepository.deleteById(id);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
 
-
     }
+}
 
