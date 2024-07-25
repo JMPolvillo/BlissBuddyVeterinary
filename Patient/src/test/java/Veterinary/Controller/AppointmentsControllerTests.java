@@ -4,6 +4,7 @@ import Veterinary.controller.AppointmentsController;
 import Veterinary.model.Appointments;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule; // Norbert Was Here
 import Veterinary.model.Patient;
 import Veterinary.service.AppointmentsService;
 
@@ -17,7 +18,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -75,11 +75,13 @@ public class AppointmentsControllerTests {
 
     }
     @Test
-    void updateAppointments() throws Exception{
+    void updateAppointments() throws Exception {
         doNothing().when(appointmentsService).updateAppointments(appointmentsLia, 2);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String appointmentsJson = objectMapper.writeValueAsString(appointmentsLia);
+        objectMapper.registerModule(new JavaTimeModule()); // And here
+
+        String appointmentsJson = objectMapper.writeValueAsString(appointmentsLia); // And here. Blessings <3
 
         mockMvc.perform(put("/appointments/2")
                 .contentType(MediaType.APPLICATION_JSON)
