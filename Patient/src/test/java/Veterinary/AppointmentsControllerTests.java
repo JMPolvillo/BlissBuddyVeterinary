@@ -39,15 +39,12 @@ public class AppointmentsControllerTests {
     private AppointmentsService appointmentsService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
-
-
-
-    private Appointments appointment;
     private String appointmentJson;
 
     @BeforeEach
     void setUp() throws Exception {
-        appointment = new Appointments();
+
+        Appointments appointment = new Appointments();
         appointment.setId(1);
         appointment.setTime(LocalTime.of(10, 5));
         appointment.setDate(LocalDate.of(2024, 7, 8));
@@ -56,6 +53,7 @@ public class AppointmentsControllerTests {
         appointment.setState("Pasada");
 
         appointmentJson = objectMapper.writeValueAsString(appointment);
+
     }
 
     @Test
