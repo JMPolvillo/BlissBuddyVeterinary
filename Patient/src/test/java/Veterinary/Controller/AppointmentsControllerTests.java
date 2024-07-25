@@ -53,7 +53,7 @@ public class AppointmentsControllerTests {
         appointmentsBolita = new Appointments();
         appointmentsBolita.setId(1);
         appointmentsBolita.setPatient(patientBolita);
-        appointmentsBolita.setDate(LocalDate.of(2024,7,31));
+//       appointmentsBolita.setDate(LocalDate.of(2024,7,31));
         appointmentsBolita.setTime(LocalTime.of(15,0));
         appointmentsBolita.setTypeOfConsultation("General");
         appointmentsBolita.setMotif("Check");
@@ -65,7 +65,7 @@ public class AppointmentsControllerTests {
         appointmentsLia = new Appointments();
         appointmentsLia.setId(2);
         appointmentsLia.setPatient(patientLia);
-        appointmentsLia.setDate(LocalDate.of(2024,5,15));
+ //       appointmentsLia.setDate(LocalDate.of(2024,5,15));
         appointmentsLia.setTime(LocalTime.of(11,15));
         appointmentsLia.setTypeOfConsultation("Urgent");
         appointmentsLia.setMotif("Labor");
