@@ -28,7 +28,7 @@ public class PatientController {
         return patientService.createPatient(patient);
     }
 
-    @PutMapping(path = "/api/{id}")
+    @PutMapping(path = "/patient/{id}")
     private void updatePatient(@RequestBody Patient patient, @PathVariable int id) {
        patientService.updatePatient(patient, id);
     }

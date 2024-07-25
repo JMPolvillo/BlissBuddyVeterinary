@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/appointments")
+@RequestMapping("/")
 @CrossOrigin(origins = "*")
 
 public class AppointmentsController {
@@ -22,7 +22,7 @@ public class AppointmentsController {
         return appointmentsService.createAppointment(appointment);
     }
 
-    @PutMapping(path = "/api/{id}")
+    @PutMapping(path = "/appointments/{id}")
     public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id) {
         appointmentsService.updateAppointments(appointments, id);
     }

@@ -45,7 +45,9 @@ public void updateAppointments(Appointments appointments, int id){
     public void deleteAppointmentById(int id){
         appointmentsRepository.deleteById(id);
     }
-    }
+
+
+}
 
 
 
