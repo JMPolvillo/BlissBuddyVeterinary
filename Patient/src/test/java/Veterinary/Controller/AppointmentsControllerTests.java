@@ -4,7 +4,7 @@ import Veterinary.controller.AppointmentsController;
 import Veterinary.model.Appointments;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import Veterinary.model.Patient;
+
 import Veterinary.service.AppointmentsService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -47,16 +47,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
         appointments1 = new Appointments();
         appointments1.setId(1);
-  //      appointments1.setDate(LocalDate.of(2024,7,31));
-  //      appointments1.setTime(LocalTime.of(15,0));
+       appointments1.setDate(LocalDate.of(2024,7,31));
+       appointments1.setTime(LocalTime.of(15,0));
         appointments1.setTypeOfConsultation("General");
         appointments1.setMotif("Check");
         appointments1.setStatus("Earring");
 
         Appointments appointments2 = new Appointments();
         appointments2.setId(2);
-  //      appointments2.setDate(LocalDate.of(2024,5,15));
-  //      appointments2.setTypeOfConsultation("Urgent");
+       appointments2.setDate(LocalDate.of(2024,5,15));
+        appointments2.setTypeOfConsultation("Urgent");
         appointments2.setMotif("Labor");
         appointments2.setStatus("Confirmed");
 
