@@ -67,7 +67,4 @@ public class AppointmentsControllerTests {
                     .andExpect(content().string("Error, we have a problem trying to delete appointment with id 1"));
         }
 
-
-
-
     }
