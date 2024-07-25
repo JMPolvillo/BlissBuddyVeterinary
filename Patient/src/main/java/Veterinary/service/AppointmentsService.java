@@ -18,34 +18,4 @@ public class AppointmentsService {
         return appointmentsRepository.save(appointment);
     }
 
-public void updateAppointments(Appointments appointments, int id){
-    appointments.setId(id);
-    AppointmentsRepository.findById(appointments);
-    }
-
-
-    public List<Appointments> getAllAppointments() {
-        try {
-            return appointmentsRepository.findAll();
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving appointments", e);
-        }
-    }
-
-    public Optional<Appointments> getAppointmentById(int id) {
-        try {
-            return appointmentsRepository.findById(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving appointment by id", e);
-        }
-    }
-    public void deleteAppointment (Appointments newAppointment) {
-        appointmentsRepository.delete(newAppointment);
-    }
-
-    //public void deleteAppointmentById(Long id){
-        //appointmentsRepository.deleteById(id);
-    //}
-
-
 }

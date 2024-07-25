@@ -1,11 +1,14 @@
 package Veterinary.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table
@@ -20,9 +23,14 @@ public class Appointments {
     @Column
     private int id;
 
-    @Column(name = "dateTime")
-    private LocalDateTime dateTime;
+    @Column(name = "Date", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate date;
 
+   @Column(name = "Time", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    private LocalTime time;
+    
     @Column(name = "typeOfConsultation")
     private String typeOfConsultation;
 
