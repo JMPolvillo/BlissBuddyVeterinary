@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.Array;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,55 +30,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringJUnitConfig
-public class AppointmentsControllerTests {
+ class AppointmentsControllerTests {
 
     @Mock
     private AppointmentsService appointmentsService;
-    private MockMvc mockMvc;
-    private Appointments appointmentsBolita;
-    private Appointments appointmentsLia;
 
     @InjectMocks
     private AppointmentsController appointmentsController;
+    private MockMvc mockMvc;
+   private Appointments appointments1;
+   private Appointments appointments2;
+    private ArrayList<Appointments> appointments;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(appointmentsController).build();
 
-        Patient patientBolita = new Patient();
-        patientBolita.setName("Bolita");
+        appointments1 = new Appointments();
+        appointments1.setId(1);
+        appointments1.setDate(LocalDate.of(2024,7,31));
+        appointments1.setTime(LocalTime.of(15,0));
+        appointments1.setTypeOfConsultation("General");
+        appointments1.setMotif("Check");
+        appointments1.setStatus("Earring");
 
-        appointmentsBolita = new Appointments();
-        appointmentsBolita.setId(1);
-        appointmentsBolita.setPatient(patientBolita);
-//       appointmentsBolita.setDate(LocalDate.of(2024,7,31));
-        appointmentsBolita.setTime(LocalTime.of(15,0));
-        appointmentsBolita.setTypeOfConsultation("General");
-        appointmentsBolita.setMotif("Check");
-        appointmentsBolita.setStatus("Earring");
-
-        Patient patientLia = new Patient();
-        patientLia.setName("lia");
-
-        appointmentsLia = new Appointments();
-        appointmentsLia.setId(2);
-        appointmentsLia.setPatient(patientLia);
- //       appointmentsLia.setDate(LocalDate.of(2024,5,15));
-        appointmentsLia.setTime(LocalTime.of(11,15));
-        appointmentsLia.setTypeOfConsultation("Urgent");
-        appointmentsLia.setMotif("Labor");
-        appointmentsLia.setStatus("Confirmed");
-
-
+        appointments2 = new Appointments();
+        appointments2.setId(2);
+        appointments2.setDate(LocalDate.of(2024,5,15));
+        appointments2.setTime(LocalTime.of(11,15));
+        appointments2.setTypeOfConsultation("Urgent");
+        appointments2.setMotif("Labor");
+        appointments2.setStatus("Confirmed");
 
     }
     @Test
     void updateAppointments() throws Exception{
-        doNothing().when(appointmentsService).updateAppointments(appointmentsLia, 2);
+        doNothing().when(appointmentsService).updateAppointments(appointments1, 2);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String appointmentsJson = objectMapper.writeValueAsString(appointmentsLia);
+        String appointmentsJson = objectMapper.writeValueAsString(appointments1);
 
         mockMvc.perform(put("/appointments/2")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -46,6 +46,5 @@ public class Patient {
     @Column(name = "tutorPhone")
     private int tutorPhone;
 
-    @OneToMany (mappedBy = "Appointments")
-    private List<Appointments> appointmentslist;
+
 }
