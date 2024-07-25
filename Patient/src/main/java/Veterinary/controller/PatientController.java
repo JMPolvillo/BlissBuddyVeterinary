@@ -59,7 +59,13 @@ public class PatientController {
     }
 
     @DeleteMapping (path = "/patients/{id}")
-    public void deletePatientById(int id){
+    public String deletePatientById(@PathVariable int id){
+        boolean ok = patientService.deletePatientById(id);
+        if (ok) {
+            return "Patient with id" + id + "was deleted";
+        } else {
+            return "Error, we have a problem to delete patient with id " + id;
+        }
     }
 
 }
