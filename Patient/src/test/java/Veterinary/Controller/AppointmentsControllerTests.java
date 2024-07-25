@@ -4,7 +4,8 @@ import Veterinary.controller.AppointmentsController;
 import Veterinary.model.Appointments;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule; // Norbert Was Here
+import Veterinary.model.Patient;
 import Veterinary.service.AppointmentsService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,32 +14,33 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.Array;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 
-
- class AppointmentsControllerTests {
+@SpringJUnitConfig
+public class AppointmentsControllerTests {
 
     @Mock
     private AppointmentsService appointmentsService;
+    private MockMvc mockMvc;
+    private Appointments appointmentsBolita;
+    private Appointments appointmentsLia;
 
     @InjectMocks
     private AppointmentsController appointmentsController;
-    private Appointments appointments1;
-    private Appointments appointments2;
-    private MockMvc mockMvc;
-
 
     @BeforeEach
     void setUp() {
@@ -62,19 +64,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     }
     @Test
-    void updateAppointments() throws Exception{
-
-        doNothing().when(appointmentsService).updateAppointments(appointments1, 1);
+    void updateAppointments() throws Exception {
+        doNothing().when(appointmentsService).updateAppointments(appointmentsLia, 2);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String appointmentsJson = objectMapper.writeValueAsString(appointments1);
+        objectMapper.registerModule(new JavaTimeModule()); // And here
 
-        mockMvc.perform(put("/appointments/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(appointmentsJson))
-                .andExpect(status().isOk());
+        String appointmentsJson = objectMapper.writeValueAsString(appointmentsLia); // And here. Blessings <3
+
+        mockMvc.perform(put("/appointments/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(appointmentsJson))
+            .andExpect(status().isOk());
     }
-
 
 
 }
