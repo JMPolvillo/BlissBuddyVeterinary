@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+
+import java.util.List;
 
 @Entity
 @Table
@@ -30,7 +33,8 @@ public class Patient {
     @Column(name = "sex")
     private String sex;
 
-    @Column(name = "numberId")
+    @NaturalId
+    @Column(name = "numberId", nullable = false, unique = true)
     private int numberId;
 
     @Column(name = "tutorIsName")
@@ -41,4 +45,7 @@ public class Patient {
 
     @Column(name = "tutorPhone")
     private int tutorPhone;
+
+    @OneToMany (mappedBy = "Appointments")
+    private List<Appointments> appointmentslist;
 }
