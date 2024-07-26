@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -46,5 +47,7 @@ public class Patient {
     @Column(name = "tutorPhone")
     private int tutorPhone;
 
+@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+private List<Appointments> appointments = new ArrayList<>();
 
 }

@@ -40,8 +40,7 @@ public class Appointments {
     @Column(name = "state")
     private String status;
 
-    @ManyToOne
-    @JoinColumn (name = "idPatient", nullable = false)
-    private Patient patient;
+@ManyToOne
+private Patient patient;
 
 }

@@ -36,7 +36,7 @@ public class AppointmentsController {
     public void deleteAppointmentById(int id){
     }
 
-    @GetMapping
+    @GetMapping(path = "/appointments")
     public ResponseEntity<List<Appointments>> getAllAppointments() {
         try {
             List<Appointments> appointments = appointmentsService.getAllAppointments();
@@ -46,7 +46,7 @@ public class AppointmentsController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/appointments/{id}")
     public ResponseEntity<Appointments> getAppointmentById(@PathVariable int id) {
         try {
             Optional<Appointments> appointment = appointmentsService.getAppointmentById(id);

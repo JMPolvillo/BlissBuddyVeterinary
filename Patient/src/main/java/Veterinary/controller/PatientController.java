@@ -33,7 +33,7 @@ public class PatientController {
        patientService.updatePatient(patient, id);
     }
 
-    @GetMapping
+    @GetMapping(path = "/patients")
     public ResponseEntity<List<Patient>> getAllPatients() {
         try {
             List<Patient> patients = patientService.getAllPatients();
@@ -43,7 +43,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/patients/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable int id) {
         try {
             Optional<Patient> patient = patientService.getPatientById(id);
