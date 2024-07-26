@@ -37,7 +37,7 @@ public class AppointmentsControllerTests {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Registrar el módulo JavaTimeModule en el ObjectMapper
+
         objectMapper.registerModule(new JavaTimeModule());
 
         appointment = new Appointments();
@@ -48,7 +48,6 @@ public class AppointmentsControllerTests {
         appointment.setMotif("Pulgas");
         appointment.setState("Pasada");
 
-        // Convertir el objeto de cita a JSON
         appointmentJson = objectMapper.writeValueAsString(appointment);
     }
 
