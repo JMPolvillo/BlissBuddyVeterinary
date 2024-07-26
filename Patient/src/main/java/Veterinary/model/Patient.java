@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "Patient")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -47,7 +47,7 @@ public class Patient {
     @Column(name = "tutorPhone")
     private int tutorPhone;
 
-@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+@OneToMany(mappedBy = "patient")
 private List<Appointments> appointments = new ArrayList<>();
 
 }

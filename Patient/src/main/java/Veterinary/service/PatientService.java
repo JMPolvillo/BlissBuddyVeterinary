@@ -1,6 +1,6 @@
 package Veterinary.service;
 
-import Veterinary.Repository.PatientRepository;
+import Veterinary.Repository.IPatientRepository;
 import Veterinary.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +11,15 @@ import java.util.Optional;
 @Service
 public class PatientService {
     @Autowired
-    PatientRepository patientRepository;
+    IPatientRepository iPatientRepository;
 
     public Patient createPatient(Patient patient) {
-        return patientRepository.save(patient);
+        return iPatientRepository.save(patient);
     }
 
     public List<Patient> getAllPatients() {
         try {
-            return patientRepository.findAll();
+            return iPatientRepository.findAll();
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving patients", e);
         }
@@ -27,7 +27,7 @@ public class PatientService {
 
     public Optional<Patient> getPatientById(int id) {
         try {
-            return patientRepository.findById(id);
+            return iPatientRepository.findById(id);
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving patient by id", e);
         }
@@ -35,16 +35,16 @@ public class PatientService {
 
     public void updatePatient(Patient patient, int id) {
         patient.setId(id);
-        PatientRepository.findById(patient);
+        iPatientRepository.save(patient);
     }
 
     public void deletePatient(Patient patient) {
-        patientRepository.delete(patient);
+        iPatientRepository.delete(patient);
     }
 
     public boolean deletePatientById(int id) {
         try {
-            patientRepository.deleteById(id);
+            iPatientRepository.deleteById(id);
             return true;
         } catch (Exception e) {
             return false;

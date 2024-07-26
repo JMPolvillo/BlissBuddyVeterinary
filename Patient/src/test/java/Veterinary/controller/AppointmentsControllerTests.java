@@ -1,4 +1,4 @@
-package Veterinary;
+package Veterinary.controller;
 
 import Veterinary.controller.AppointmentsController;
 import Veterinary.model.Appointments;

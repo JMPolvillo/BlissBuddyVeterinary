@@ -1,6 +1,6 @@
 package Veterinary.service;
 
-import Veterinary.Repository.AppointmentsRepository;
+import Veterinary.Repository.IAppointmentsRepository;
 import Veterinary.model.Appointments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,21 +11,21 @@ import java.util.Optional;
 
 public class AppointmentsService {
     @Autowired
-    AppointmentsRepository appointmentsRepository;
+    IAppointmentsRepository iAppointmentsRepository;
 
     public Appointments createAppointment(Appointments appointment) {
-        return appointmentsRepository.save(appointment);
+        return iAppointmentsRepository.save(appointment);
     }
 
 public void updateAppointments(Appointments appointments, int id){
     appointments.setId(id);
-    AppointmentsRepository.findById(appointments);
+    iAppointmentsRepository.save(appointments);
     }
 
 
     public List<Appointments> getAllAppointments() {
         try {
-            return appointmentsRepository.findAll();
+            return iAppointmentsRepository.findAll();
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving appointments", e);
         }
@@ -33,18 +33,18 @@ public void updateAppointments(Appointments appointments, int id){
 
     public Optional<Appointments> getAppointmentById(int id) {
         try {
-            return appointmentsRepository.findById(id);
+            return iAppointmentsRepository.findById(id);
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving appointment by id", e);
         }
     }
     public void deleteAppointment (Appointments newAppointment) {
-        appointmentsRepository.delete(newAppointment);
+        iAppointmentsRepository.delete(newAppointment);
     }
 
     public boolean deleteAppointmentById(int id) {
         try {
-            appointmentsRepository.deleteById(id);
+            iAppointmentsRepository.deleteById(id);
             return true;
         }catch (Exception e){
             return false;
