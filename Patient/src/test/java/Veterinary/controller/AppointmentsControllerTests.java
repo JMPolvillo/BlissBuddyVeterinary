@@ -21,8 +21,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -73,6 +77,27 @@ public class AppointmentsControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(appointmentsJson))
             .andExpect(status().isOk());
+    }
+    @Test
+    void createAppointments() throws Exception {
+
+        when(appointmentsService.createAppointment(any(Appointments.class))).thenReturn(appointments1);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        String appointmentsJson = objectMapper.writeValueAsString(appointments1);
+
+        mockMvc.perform(post("/appointments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(appointmentsJson))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.date").value("31-07-2024"))
+                .andExpect(jsonPath("$.time").value("15:00"))
+                .andExpect(jsonPath("$.typeOfConsultation").value("General"))
+                .andExpect(jsonPath("$.motif").value("Check"))
+                .andExpect(jsonPath("$.status").value("Earring"));
     }
 
 

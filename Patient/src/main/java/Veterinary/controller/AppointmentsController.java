@@ -3,6 +3,7 @@ package Veterinary.controller;
 import Veterinary.model.Appointments;
 import Veterinary.service.AppointmentsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +19,11 @@ public class AppointmentsController {
     AppointmentsService appointmentsService;
 
     @PostMapping(path = "/appointments")
-    public Appointments createAppointments(@RequestBody Appointments appointment) {
-        return appointmentsService.createAppointment(appointment);
+    public ResponseEntity<Appointments> createAppointments(@RequestBody Appointments newAppointments) {
+        Appointments createdAppointments = appointmentsService.createAppointment(newAppointments);
+        return new ResponseEntity<>(createdAppointments, HttpStatus.CREATED);
     }
+
 
     @PutMapping(path = "/appointments/{id}")
     public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id) {

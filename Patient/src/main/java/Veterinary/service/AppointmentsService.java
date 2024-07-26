@@ -17,9 +17,9 @@ public class AppointmentsService {
         return iAppointmentsRepository.save(appointment);
     }
 
-public void updateAppointments(Appointments appointments, int id){
-    appointments.setId(id);
-    iAppointmentsRepository.save(appointments);
+    public void updateAppointments(Appointments appointments, int id) {
+        appointments.setId(id);
+        iAppointmentsRepository.save(appointments);
     }
 
 
@@ -38,7 +38,8 @@ public void updateAppointments(Appointments appointments, int id){
             throw new RuntimeException("Error retrieving appointment by id", e);
         }
     }
-    public void deleteAppointment (Appointments newAppointment) {
+
+    public void deleteAppointment(Appointments newAppointment) {
         iAppointmentsRepository.delete(newAppointment);
     }
 
@@ -46,11 +47,12 @@ public void updateAppointments(Appointments appointments, int id){
         try {
             iAppointmentsRepository.deleteById(id);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
     }
+
 }
 
 
