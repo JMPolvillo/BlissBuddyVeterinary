@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/appointments")
+@RequestMapping("/")
 @CrossOrigin(origins = "*")
 
 public class AppointmentsController {
@@ -22,7 +22,7 @@ public class AppointmentsController {
         return appointmentsService.createAppointment(appointment);
     }
 
-    @PutMapping(path = "/api/{id}")
+    @PutMapping(path = "/appointments/{id}")
     public void updateAppointments(@RequestBody Appointments appointments, @PathVariable int id) {
         appointmentsService.updateAppointments(appointments, id);
     }
@@ -36,7 +36,7 @@ public class AppointmentsController {
     public void deleteAppointmentById(int id){
     }
 
-    @GetMapping
+    @GetMapping(path = "/appointments")
     public ResponseEntity<List<Appointments>> getAllAppointments() {
         try {
             List<Appointments> appointments = appointmentsService.getAllAppointments();
@@ -46,7 +46,7 @@ public class AppointmentsController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/appointments/{id}")
     public ResponseEntity<Appointments> getAppointmentById(@PathVariable int id) {
         try {
             Optional<Appointments> appointment = appointmentsService.getAppointmentById(id);

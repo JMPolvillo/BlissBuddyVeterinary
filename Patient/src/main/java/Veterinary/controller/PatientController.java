@@ -28,12 +28,12 @@ public class PatientController {
         return patientService.createPatient(patient);
     }
 
-    @PutMapping(path = "/api/{id}")
+    @PutMapping(path = "/patient/{id}")
     private void updatePatient(@RequestBody Patient patient, @PathVariable int id) {
        patientService.updatePatient(patient, id);
     }
 
-    @GetMapping
+    @GetMapping(path = "/patients")
     public ResponseEntity<List<Patient>> getAllPatients() {
         try {
             List<Patient> patients = patientService.getAllPatients();
@@ -43,7 +43,7 @@ public class PatientController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/patients/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable int id) {
         try {
             Optional<Patient> patient = patientService.getPatientById(id);

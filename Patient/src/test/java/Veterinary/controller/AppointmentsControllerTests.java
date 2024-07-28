@@ -1,0 +1,81 @@
+package Veterinary.controller;
+
+import Veterinary.controller.AppointmentsController;
+import Veterinary.model.Appointments;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import Veterinary.service.AppointmentsService;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Optional;
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+@SpringJUnitConfig
+public class AppointmentsControllerTests {
+
+    @Mock
+    private AppointmentsService appointmentsService;
+    private MockMvc mockMvc;
+    private Appointments appointments1;
+    private Appointments appointments2;
+
+    @InjectMocks
+    private AppointmentsController appointmentsController;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(appointmentsController).build();
+
+        appointments1 = new Appointments();
+        appointments1.setId(1);
+        appointments1.setDate(LocalDate.of(2024, 7, 31));
+        appointments1.setTime(LocalTime.of(15, 0));
+        appointments1.setTypeOfConsultation("General");
+        appointments1.setMotif("Check");
+        appointments1.setStatus("Pending");
+
+        appointments2 = new Appointments();
+        appointments2.setId(2);
+        appointments2.setDate(LocalDate.of(2024, 5, 15));
+        appointments2.setTime(LocalTime.of(10, 0));
+        appointments2.setTypeOfConsultation("Urgent");
+        appointments2.setMotif("Labor");
+        appointments2.setStatus("Confirmed");
+    }
+
+    @Test
+    void getAppointmentById() throws Exception {
+        when(appointmentsService.getAppointmentById(2)).thenReturn(Optional.of(appointments2));
+
+        mockMvc.perform(get("/appointments/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(2))
+                .andExpect(jsonPath("$.date").value("15-05-2024"))
+                .andExpect(jsonPath("$.time").value("10:00"))
+                .andExpect(jsonPath("$.typeOfConsultation").value("Urgent"))
+                .andExpect(jsonPath("$.motif").value("Labor"))
+                .andExpect(jsonPath("$.status").value("Confirmed"));
+    }
+}

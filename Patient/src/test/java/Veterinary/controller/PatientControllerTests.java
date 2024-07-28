@@ -9,20 +9,27 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringJUnitConfig
-public class PatientControllerTests {
+
+class PatientControllerTests {
 
 	@Mock
 	private PatientService patientService;
@@ -33,6 +40,7 @@ public class PatientControllerTests {
 	private MockMvc mockMvc;
 	private Patient patientBolita;
 	private Patient patientLia;
+	private ArrayList<Patient> patientList;
 
 	@BeforeEach
 	void setUp() {
@@ -63,22 +71,16 @@ public class PatientControllerTests {
 	}
 
 	@Test
-	public void test_getPatientById() throws Exception {
-		when(patientService.getPatientById(2)).thenReturn(Optional.of(patientLia));
+	void updatePatient() throws Exception {
+		doNothing().when(patientService).updatePatient(patientLia, 2);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		String patientJson = objectMapper.writeValueAsString(patientLia);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/2"))
-				.andExpect(status().isOk())
-				.andExpect(content().json(patientJson));
-
-		when(patientService.getPatientById(1)).thenReturn(Optional.of(patientBolita));
-
-		patientJson = objectMapper.writeValueAsString(patientBolita);
-
-		mockMvc.perform(MockMvcRequestBuilders.get("/1"))
-				.andExpect(status().isOk())
-				.andExpect(content().json(patientJson));
+		mockMvc.perform(put("/patient/2")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(patientJson))
+				.andExpect(status().isOk());
 	}
+
 }
