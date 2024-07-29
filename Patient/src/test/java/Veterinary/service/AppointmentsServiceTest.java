@@ -45,8 +45,9 @@ class AppointmentsServiceTest {
 
     @Test
     void deleteAppointmentByIdTest() {
-        int id = 1;
+        int id = 2;
         appointmentsService.deleteAppointmentById(id);
         verify(appointmentsRepository).deleteById(id);
+
     }
 }
