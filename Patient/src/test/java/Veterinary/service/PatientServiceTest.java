@@ -73,6 +73,28 @@ public void SetUp(){
             assertEquals(1, patientToUpdate.getId());
             verify(iPatientRepository, times(1)).save(patientToUpdate);
         }
+    @Test
+    void createPatient() {
+
+        when(iPatientRepository.save(any(Patient.class))).thenReturn(patientLia);
+
+        Patient newPatient = patientService.createPatient(patientLia);
+
+
+        assertNotNull(newPatient);
+        assertEquals(2, newPatient.getId());
+        assertEquals("Lia", newPatient.getName());
+        assertEquals(5, newPatient.getAge());
+        assertEquals("Female", newPatient.getSex());
+        assertEquals("Water dog", newPatient.getRace());
+        assertEquals(4539, newPatient.getNumberId());
+        assertEquals("Kratos", newPatient.getTutorIsName());
+        assertEquals("Onubense", newPatient.getTutorIsLastName());
+        assertEquals(615895746, newPatient.getTutorPhone());
+
+
+        verify(iPatientRepository, times(1)).save(patientLia);
+    }
 
 
     }
