@@ -21,7 +21,7 @@ class PatientServiceTest {
     @InjectMocks
     private PatientService patientService;
     private Patient patientLia;
-    private Patient patientBolita
+    private Patient patientBolita;
     private ArrayList<Patient> patientList = new ArrayList<>();
 
 
@@ -32,27 +32,27 @@ class PatientServiceTest {
     public void setUp(){
         MockitoAnnotations.openMocks(this);
 
+        patientBolita = new Patient();
+        patientBolita.setId(1);
+        patientBolita.setName("Bolita");
+        patientBolita.setAge(4);
+        patientBolita.setSex("Male");
+        patientBolita.setRace("Belier");
+        patientBolita.setNumberId(4538);
+        patientBolita.setTutorIsName("Isabé");
+        patientBolita.setTutorIsLastName("Rodriguez");
+        patientBolita.setTutorPhone(658986742);
+
         patientLia = new Patient();
-        patientLia.setId(1);
+        patientLia.setId(2);
         patientLia.setName("Lia");
         patientLia.setAge(5);
-        patientLia.setRace("Perro de agua");
-        patientLia.setSex("Femenino");
-        patientLia.setNumberId();
-        patientLia.setTutorIsName("JM");
-        patientLia.setTutorIsLastName("Polvillo");
-        patientLia.setTutorPhone(666-66666);
-
-        patientBolita = new Patient();
-        patientBolita.setId(2);
-        patientBolita.setName("Bolita");
-        patientBolita.setAge();
-        patientBolita.setRace();
-        patientBolita.setSex();
-        patientBolita.setNumberId();
-        patientBolita.setTutorIsName();
-        patientBolita.setTutorIsLastName();
-        patientBolita.setTutorPhone();
+        patientLia.setSex("Female");
+        patientLia.setRace("Water dog");
+        patientLia.setNumberId(4539);
+        patientLia.setTutorIsName("Kratos");
+        patientLia.setTutorIsLastName("Onubense");
+        patientLia.setTutorPhone(615895746);
     }
 
     @Test
