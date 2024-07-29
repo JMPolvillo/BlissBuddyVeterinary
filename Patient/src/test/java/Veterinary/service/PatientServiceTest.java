@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -58,7 +59,6 @@ public void SetUp(){
 
     }
 
-
         @Test
         void updatePatient() {
             when(iPatientRepository.save(any(Patient.class))).thenReturn(patientBolita);
@@ -74,8 +74,7 @@ public void SetUp(){
             verify(iPatientRepository, times(1)).save(patientToUpdate);
         }
 
+
     }
-
-
 
 

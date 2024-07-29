@@ -5,6 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IAppointmentsRepository extends JpaRepository<Appointments, Integer> {
 
-    static void findById(Appointments appointments) {
-    }
-}
+   }
