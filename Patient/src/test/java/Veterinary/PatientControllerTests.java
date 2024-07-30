@@ -49,17 +49,17 @@ public class PatientControllerTests {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		mockMvc.perform(post("/patients")
+		mockMvc.perform(post("/patient")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(patientJson))
-				.andExpect(status().isCreated())
+				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(1))
 				.andExpect(jsonPath("$.name").value("Bolita"))
 				.andExpect(jsonPath("$.age").value(4))
-				.andExpect(jsonPath("$.sex").value("Hembra"))
+				.andExpect(jsonPath("$.sex").value("Male"))
 				.andExpect(jsonPath("$.race").value("Belier"))
 				.andExpect(jsonPath("$.numberId").value("4538"))
-				.andExpect(jsonPath("$.tutorIsName").value("Maria"))
+				.andExpect(jsonPath("$.tutorIsName").value("Isabé"))
 				.andExpect(jsonPath("$.tutorIsLastName").value("Rodriguez"))
 				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
 	}

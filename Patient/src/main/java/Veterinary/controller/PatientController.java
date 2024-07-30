@@ -22,7 +22,7 @@ public class PatientController {
     @Autowired
     PatientService patientService;
 
-    @PostMapping(path = "/patients")
+    @PostMapping(path = "/patient")
     public Patient createPatient(@RequestBody Patient patient) {
         return patientService.createPatient(patient);
     }
