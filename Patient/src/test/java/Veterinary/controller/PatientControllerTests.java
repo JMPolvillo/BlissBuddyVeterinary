@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
 class PatientControllerTests {
@@ -80,5 +80,27 @@ class PatientControllerTests {
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(patientJson))
 				.andExpect(status().isOk());
+	}
+
+	@Test
+	void createTestPatient() throws Exception {
+		when(patientService.createPatient(any(Patient.class))).thenReturn(patientBolita);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String patientJson = objectMapper.writeValueAsString(patientBolita);
+
+		mockMvc.perform(post("/patient")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(patientJson))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Bolita"))
+				.andExpect(jsonPath("$.age").value(4))
+				.andExpect(jsonPath("$.sex").value("Male"))
+				.andExpect(jsonPath("$.race").value("Belier"))
+				.andExpect(jsonPath("$.numberId").value("4538"))
+				.andExpect(jsonPath("$.tutorIsName").value("Isabé"))
+				.andExpect(jsonPath("$.tutorIsLastName").value("Rodriguez"))
+				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
 	}
 }
