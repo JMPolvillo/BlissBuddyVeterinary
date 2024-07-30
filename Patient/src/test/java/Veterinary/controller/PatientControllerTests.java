@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
@@ -49,12 +50,12 @@ class PatientControllerTests {
 		patientBolita = new Patient();
 		patientBolita.setId(1);
 		patientBolita.setName("Bolita");
-		patientBolita.setAge(4);
+		patientBolita.setAge(5);
 		patientBolita.setSex("Male");
 		patientBolita.setRace("Belier");
 		patientBolita.setNumberId(4538);
 		patientBolita.setTutorIsName("Isabé");
-		patientBolita.setTutorIsLastName("Rodriguez");
+		patientBolita.setTutorIsLastName("Gutierrez");
 		patientBolita.setTutorPhone(658986742);
 
 		patientLia = new Patient();
@@ -81,4 +82,26 @@ class PatientControllerTests {
 						.content(patientJson))
 				.andExpect(status().isOk());
 	}
+
+	@Test
+	public void getPatientById() throws Exception {
+		when(patientService.getPatientById(2)).thenReturn(Optional.of(patientLia));
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String patientJson = objectMapper.writeValueAsString(patientLia);
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/patients/2"))
+				.andExpect(status().isOk())
+				.andExpect(content().json(patientJson));
+
+		when(patientService.getPatientById(1)).thenReturn(Optional.of(patientBolita));
+
+		patientJson = objectMapper.writeValueAsString(patientBolita);
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/patients/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().json(patientJson));
+	}
+
+
 }
