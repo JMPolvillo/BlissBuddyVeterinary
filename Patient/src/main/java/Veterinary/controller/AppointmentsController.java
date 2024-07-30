@@ -59,4 +59,5 @@ public class AppointmentsController {
             return ResponseEntity.status(500).body(null);
         }
     }
+
 }

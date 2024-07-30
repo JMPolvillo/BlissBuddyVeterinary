@@ -31,6 +31,10 @@ public class Appointments {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime time;
 
+    @Column(name = "Time", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    private LocalTime time;
+
     @Column(name = "typeOfConsultation")
     private String typeOfConsultation;
 
@@ -40,7 +44,6 @@ public class Appointments {
     @Column(name = "state")
     private String status;
 
-@ManyToOne
-private Patient patient;
-
+    @ManyToOne
+    private Patient patient;
 }
