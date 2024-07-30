@@ -51,7 +51,6 @@ public class AppointmentsControllerTests {
         appointments1 = new Appointments();
         appointments1.setId(1);
         appointments1.setDate(LocalDate.of(2024, 7, 31));
-        appointments1.setTime(LocalTime.of(15, 0));
         appointments1.setTypeOfConsultation("General");
         appointments1.setMotif("Check");
         appointments1.setStatus("Pending");
@@ -59,7 +58,6 @@ public class AppointmentsControllerTests {
         appointments2 = new Appointments();
         appointments2.setId(2);
         appointments2.setDate(LocalDate.of(2024, 5, 15));
-        appointments2.setTime(LocalTime.of(10, 0));
         appointments2.setTypeOfConsultation("Urgent");
         appointments2.setMotif("Labor");
         appointments2.setStatus("Confirmed");

@@ -9,27 +9,21 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
 @Entity
 @Table(name = "Appointments")
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class Appointments {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 
     @Column(name = "Date", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate date;
-
-    @Column(name = "time", nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    private LocalTime time;
 
     @Column(name = "Time", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")

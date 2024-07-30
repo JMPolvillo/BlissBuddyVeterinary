@@ -1,6 +1,5 @@
 package Veterinary.controller;
 
-import Veterinary.controller.PatientController;
 import Veterinary.model.Patient;
 import Veterinary.service.PatientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,24 +9,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.util.Optional;
 
 class PatientControllerTests {
 
@@ -40,7 +34,6 @@ class PatientControllerTests {
 	private MockMvc mockMvc;
 	private Patient patientBolita;
 	private Patient patientLia;
-	private ArrayList<Patient> patientList;
 
 	@BeforeEach
 	void setUp() {
@@ -55,7 +48,7 @@ class PatientControllerTests {
 		patientBolita.setRace("Belier");
 		patientBolita.setNumberId(4538);
 		patientBolita.setTutorIsName("Isabé");
-		patientBolita.setTutorIsLastName("Gutierrez");
+		patientBolita.setTutorIsLastName("Gutierrez"); // Updated here
 		patientBolita.setTutorPhone(658986742);
 
 		patientLia = new Patient();
@@ -103,5 +96,26 @@ class PatientControllerTests {
 				.andExpect(content().json(patientJson));
 	}
 
+	@Test
+	void createTestPatient() throws Exception {
+		when(patientService.createPatient(any(Patient.class))).thenReturn(patientBolita);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String patientJson = objectMapper.writeValueAsString(patientBolita);
+
+		mockMvc.perform(post("/patients")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(patientJson))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Bolita"))
+				.andExpect(jsonPath("$.age").value(5))
+				.andExpect(jsonPath("$.sex").value("Male"))
+				.andExpect(jsonPath("$.race").value("Belier"))
+				.andExpect(jsonPath("$.numberId").value("4538"))
+				.andExpect(jsonPath("$.tutorIsName").value("Isabé"))
+				.andExpect(jsonPath("$.tutorIsLastName").value("Gutierrez"))
+				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
+	}
 
 }
