@@ -1,5 +1,6 @@
 package Veterinary;
 
+import Veterinary.Repository.PatientRepository;
 import Veterinary.controller.PatientController;
 import Veterinary.model.Patient;
 import Veterinary.service.PatientService;
@@ -12,25 +13,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(PatientController.class)
+@SpringJUnitConfig
 public class PatientControllerTests {
 
-	@Autowired
-	private MockMvc mockMvc;
-
-	@MockBean
+	@Mock
 	private PatientService patientService;
-
+	private MockMvc mockMvc;
 	private Patient patientBolita;
 	private String patientJson;
+
+	@InjectMocks
+	private PatientController patientController;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -51,10 +52,18 @@ public class PatientControllerTests {
 	void createTestPatient() throws Exception {
 		when(patientService.createPatient(any(Patient.class))).thenReturn(patientBolita);
 
-		mockMvc.perform(post("/api/patients")
+		mockMvc.perform(post("/patients")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(patientJson))
-				.andExpect(status().isOk())
-				.andExpect(content().json(patientJson));
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Bolita"))
+				.andExpect(jsonPath("$.age").value(4))
+				.andExpect(jsonPath("$.sex").value("Hembra"))
+				.andExpect(jsonPath("$.race").value("Belier"))
+				.andExpect(jsonPath("$.numberId").value("4538"))
+				.andExpect(jsonPath("$.tutorIsName").value("Maria"))
+				.andExpect(jsonPath("$.tutorIsLastName").value("Rodriguez"))
+				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
 	}
 }
