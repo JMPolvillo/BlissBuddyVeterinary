@@ -86,6 +86,4 @@ public class AppointmentsControllerTests {
                 .andExpect(jsonPath("$.motif").value("Check"))
                 .andExpect(jsonPath("$.status").value("Earring"));
     }
-
-
 }
