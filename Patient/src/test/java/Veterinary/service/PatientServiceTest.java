@@ -2,18 +2,20 @@ package Veterinary.service;
 
 import Veterinary.Repository.IPatientRepository;
 import Veterinary.model.Patient;
+import Veterinary.model.PatientDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -44,6 +46,7 @@ public void SetUp(){
         patientBolita.setTutorIsName("Isabé");
         patientBolita.setTutorIsLastName("Rodriguez");
         patientBolita.setTutorPhone(658986742);
+        patientBolita.setPhoto("photo-content".getBytes());
 
         patientLia = new Patient();
         patientLia.setId(2);
@@ -55,6 +58,7 @@ public void SetUp(){
         patientLia.setTutorIsName("Kratos");
         patientLia.setTutorIsLastName("Onubense");
         patientLia.setTutorPhone(615895746);
+        patientLia.setPhoto("photo-content".getBytes());
 
 
     }
@@ -68,18 +72,20 @@ public void SetUp(){
             patientToUpdate.setName("UpdatedBolita");
             patientToUpdate.setTutorIsName("UpdatedIsabé");
 
+            MockMultipartFile photoByte = new MockMultipartFile("photo", "photo.jpg", "image/jpeg", "updated-photo-content".getBytes());
 
             patientService.updatePatient(patientToUpdate, 1);
+
             assertEquals(1, patientToUpdate.getId());
             verify(iPatientRepository, times(1)).save(patientToUpdate);
         }
+
     @Test
-    void createPatient() {
+    void createPatient() throws IOException {
 
         when(iPatientRepository.save(any(Patient.class))).thenReturn(patientLia);
 
         Patient newPatient = patientService.createPatient(patientLia);
-
 
         assertNotNull(newPatient);
         assertEquals(2, newPatient.getId());
@@ -92,11 +98,15 @@ public void SetUp(){
         assertEquals("Onubense", newPatient.getTutorIsLastName());
         assertEquals(615895746, newPatient.getTutorPhone());
 
+        MockMultipartFile photo2 = new MockMultipartFile("photo", "photo.jpg", "image/jpeg", "photo-content".getBytes());
+
+
+        assertArrayEquals("photo-content".getBytes(), newPatient.getPhoto());
 
         verify(iPatientRepository, times(1)).save(patientLia);
     }
 
 
-    }
+}
 
 
