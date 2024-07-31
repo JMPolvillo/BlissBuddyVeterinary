@@ -22,6 +22,9 @@ public class Patient {
     @Column
     private int id;
 
+    @Lob
+    private byte[] photo;
+
     @Column(name = "name")
     private String name;
 
@@ -47,7 +50,9 @@ public class Patient {
     @Column(name = "tutorPhone")
     private int tutorPhone;
 
+
+
 @OneToMany(mappedBy = "patient")
-private List<Appointments> appointments = new ArrayList<>();
+private List<Appointments> appointments;
 
 }

@@ -67,6 +67,21 @@ class AppointmentsServiceTest {
         assertEquals(2, appointmentsToUpdate.getId());
         verify(iAppointmentsRepository, times(1)).save(appointmentsToUpdate);
     }
+    @Test
+    void createAppointments(){
+
+        when(iAppointmentsRepository.save(any(Appointments.class))).thenReturn(appointments1);
+
+        Appointments createdAppointment = appointmentsService.createAppointment(appointments1);
+
+        assertEquals(appointments1.getDate(), createdAppointment.getDate());
+        assertEquals(appointments1.getTime(), createdAppointment.getTime());
+        assertEquals(appointments1.getTypeOfConsultation(), createdAppointment.getTypeOfConsultation());
+        assertEquals(appointments1.getMotif(), createdAppointment.getMotif());
+        assertEquals(appointments1.getStatus(), createdAppointment.getStatus());
+        verify(iAppointmentsRepository, times(1)).save(appointments1);
+    }
+
 
     @Test
     void deleteAppointmentByIdTest() {

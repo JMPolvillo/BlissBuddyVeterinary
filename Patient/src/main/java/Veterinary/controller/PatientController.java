@@ -3,6 +3,7 @@ package Veterinary.controller;
 import Veterinary.model.Patient;
 import Veterinary.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,15 +25,26 @@ public class PatientController {
     @Autowired
     PatientService patientService;
 
-    @PostMapping(path = "/patient")
-    public Patient createPatient(@RequestBody Patient patient) {
-        return patientService.createPatient(patient);
+    @PostMapping(path = "/patients")
+    public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
+        try {
+            Patient savedPatient = patientService.createPatient(patient);
+            return new ResponseEntity<>(savedPatient, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping(path = "/patient/{id}")
-    private void updatePatient(@RequestBody Patient patient, @PathVariable int id) {
-       patientService.updatePatient(patient, id);
+    private ResponseEntity<Patient> updatePatient(@RequestBody Patient patient, @PathVariable int id) {
+        try {
+            patientService.updatePatient(patient, id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     @GetMapping(path = "/patients")
     public ResponseEntity<List<Patient>> getAllPatients() {

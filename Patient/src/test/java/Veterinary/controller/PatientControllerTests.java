@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,8 +25,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 class PatientControllerTests {
@@ -56,6 +57,7 @@ class PatientControllerTests {
 		patientBolita.setTutorIsName("Isabé");
 		patientBolita.setTutorIsLastName("Rodriguez");
 		patientBolita.setTutorPhone(658986742);
+		patientBolita.setPhoto("photo-content".getBytes());
 
 		patientLia = new Patient();
 		patientLia.setId(2);
@@ -67,11 +69,12 @@ class PatientControllerTests {
 		patientLia.setTutorIsName("Kratos");
 		patientLia.setTutorIsLastName("Onubense");
 		patientLia.setTutorPhone(615895746);
+		patientLia.setPhoto("photo-content".getBytes());
 	}
 
 	@Test
 	void updatePatient() throws Exception {
-		doNothing().when(patientService).updatePatient(patientLia, 2);
+		doNothing().when(patientService).updatePatient(any(Patient.class), any(Integer.class));
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		String patientJson = objectMapper.writeValueAsString(patientLia);
