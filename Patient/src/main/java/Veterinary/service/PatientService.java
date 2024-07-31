@@ -2,9 +2,11 @@ package Veterinary.service;
 
 import Veterinary.Repository.IPatientRepository;
 import Veterinary.model.Patient;
+import Veterinary.model.PatientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +51,18 @@ public class PatientService {
         } catch (Exception e) {
             return false;
         }
+    }
+    private Patient convertDtoToEntity(PatientDto patientDto) throws IOException {
+        Patient patient = new Patient();
+        patient.setName(patientDto.getName());
+        patient.setRace(patientDto.getRace());
+        patient.setAge(patientDto.getAge());
+        patient.setSex((patientDto.getSex()));
 
+        if (patientDto.getPhoto() != null && !patientDto.getPhoto().isEmpty()) {
+            patient.setPhoto(patientDto.getPhoto().getBytes());
+        }
+        return patient;
     }
 }
 

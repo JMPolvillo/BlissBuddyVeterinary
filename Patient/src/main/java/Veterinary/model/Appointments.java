@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "Appointments")
@@ -18,9 +17,9 @@ import java.util.Date;
 @NoArgsConstructor
 
 public class Appointments {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+
     @Column
     private int id;
 
@@ -28,7 +27,7 @@ public class Appointments {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate date;
 
-    @Column(name = "Time", nullable = false)
+    @Column(name = "time", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime time;
 
@@ -41,6 +40,8 @@ public class Appointments {
     @Column(name = "state")
     private String status;
 
-    @ManyToOne
-    private Patient patient;
+@ManyToOne
+@JoinColumn (name = "Patient_id")
+private Patient patient;
+
 }

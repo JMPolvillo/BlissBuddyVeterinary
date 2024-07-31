@@ -12,8 +12,11 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -65,4 +68,56 @@ class AppointmentsServiceTest {
         assertEquals(2, appointmentsToUpdate.getId());
         verify(iAppointmentsRepository, times(1)).save(appointmentsToUpdate);
     }
+    @Test
+    void createAppointments(){
+
+        when(iAppointmentsRepository.save(any(Appointments.class))).thenReturn(appointments1);
+
+        Appointments createdAppointment = appointmentsService.createAppointment(appointments1);
+
+        assertEquals(appointments1.getDate(), createdAppointment.getDate());
+        assertEquals(appointments1.getTime(), createdAppointment.getTime());
+        assertEquals(appointments1.getTypeOfConsultation(), createdAppointment.getTypeOfConsultation());
+        assertEquals(appointments1.getMotif(), createdAppointment.getMotif());
+        assertEquals(appointments1.getStatus(), createdAppointment.getStatus());
+        verify(iAppointmentsRepository, times(1)).save(appointments1);
+    }
+
+
+    @Test
+    void deleteAppointmentByIdTest() {
+        int id = 2;
+        appointmentsService.deleteAppointmentById(id);
+        verify(iAppointmentsRepository).deleteById(id);
+    }
+
+    @Test
+    void getAllAppointments() {
+        List<Appointments> appointmentList = new ArrayList<>();
+        appointmentList.add(appointments1);
+        appointmentList.add(appointments2);
+
+        when(iAppointmentsRepository.findAll()).thenReturn(appointmentList);
+
+        List<Appointments> allAppointments = appointmentsService.getAllAppointments();
+
+        assertNotNull(allAppointments);
+        assertEquals(2, allAppointments.size());
+        assertTrue(allAppointments.contains(appointments1));
+        assertTrue(allAppointments.contains(appointments2));
+        verify(iAppointmentsRepository, times(1)).findAll();
+    }
+
+    @Test
+    void getAppointmentById() {
+        when(iAppointmentsRepository.findById(anyInt())).thenReturn(Optional.of(appointments1));
+
+        Optional<Appointments> foundAppointment = appointmentsService.getAppointmentById(1);
+
+        assertTrue(foundAppointment.isPresent());
+        assertEquals(appointments1.getId(), foundAppointment.get().getId());
+        assertEquals(appointments1.getDate(), foundAppointment.get().getDate());
+        verify(iAppointmentsRepository, times(1)).findById(1);
+    }
+
 }

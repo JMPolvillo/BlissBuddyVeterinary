@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,8 +26,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 class PatientControllerTests {
@@ -57,6 +58,7 @@ class PatientControllerTests {
 		patientBolita.setTutorIsName("Isabé");
 		patientBolita.setTutorIsLastName("Rodriguez");
 		patientBolita.setTutorPhone(658986742);
+		patientBolita.setPhoto("photo-content".getBytes());
 
 		patientLia = new Patient();
 		patientLia.setId(2);
@@ -68,11 +70,12 @@ class PatientControllerTests {
 		patientLia.setTutorIsName("Kratos");
 		patientLia.setTutorIsLastName("Onubense");
 		patientLia.setTutorPhone(615895746);
+		patientLia.setPhoto("photo-content".getBytes());
 	}
 
 	@Test
 	void updatePatient() throws Exception {
-		doNothing().when(patientService).updatePatient(patientLia, 2);
+		doNothing().when(patientService).updatePatient(any(Patient.class), any(Integer.class));
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		String patientJson = objectMapper.writeValueAsString(patientLia);
@@ -105,6 +108,21 @@ class PatientControllerTests {
 				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
 	}
 
+    @Test
+    public void test_deletePatientsById() throws Exception {
+        when(patientService.deletePatientById(1)).thenReturn(true);
+
+        mockMvc.perform(delete("/patients/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Patient with id" + 1 + "was deleted"));
+
+        when(patientService.deletePatientById(1)).thenReturn(false);
+
+        mockMvc.perform(delete("/patients/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Error, we have a problem trying to delete patient with id 1"));
+    }
+
 	@Test
 	public void test_getPatientById() throws Exception {
 		when(patientService.getPatientById(2)).thenReturn(Optional.of(patientLia));
@@ -123,21 +141,6 @@ class PatientControllerTests {
 		mockMvc.perform(MockMvcRequestBuilders.get("/patients/1"))
 				.andExpect(status().isOk())
 				.andExpect(content().json(patientJson));
-	}
-
-	@Test
-	public void test_deletePatientsById() throws Exception {
-		when(patientService.deletePatientById(1)).thenReturn(true);
-
-		mockMvc.perform(delete("/patients/1"))
-				.andExpect(status().isOk())
-				.andExpect(content().string("Patient with id" + 1 + "was deleted"));
-
-		when(patientService.deletePatientById(1)).thenReturn(false);
-
-		mockMvc.perform(delete("/patients/1"))
-				.andExpect(status().isOk())
-				.andExpect(content().string("Error, we have a problem trying to delete patient with id 1"));
 	}
 
 }
