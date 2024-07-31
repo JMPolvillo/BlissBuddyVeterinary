@@ -1,5 +1,6 @@
 package Veterinary.service;
 
+import Veterinary.Repository.AppointmentsRepository;
 import Veterinary.Repository.IAppointmentsRepository;
 import Veterinary.model.Appointments;
 import Veterinary.model.Patient;
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -64,5 +66,12 @@ class AppointmentsServiceTest {
         appointmentsService.updateAppointments(appointmentsToUpdate, 2);
         assertEquals(2, appointmentsToUpdate.getId());
         verify(iAppointmentsRepository, times(1)).save(appointmentsToUpdate);
+    }
+
+    @Test
+    void deleteAppointmentByIdTest() {
+        int id = 2;
+        appointmentsService.deleteAppointmentById(id);
+        verify(appointmentsRepository).deleteById(id);
     }
 }

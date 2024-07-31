@@ -1,4 +1,4 @@
-package Veterinary.controller;
+package Veterinary;
 
 import Veterinary.controller.PatientController;
 import Veterinary.model.Patient;
@@ -103,4 +103,20 @@ class PatientControllerTests {
 				.andExpect(jsonPath("$.tutorIsLastName").value("Rodriguez"))
 				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
 	}
+
+    @Test
+    public void test_deletePatientsById() throws Exception {
+        when(patientService.deletePatientById(1)).thenReturn(true);
+
+        mockMvc.perform(delete("/patients/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Patient with id" + 1 + "was deleted"));
+
+        when(patientService.deletePatientById(1)).thenReturn(false);
+
+        mockMvc.perform(delete("/patients/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Error, we have a problem trying to delete patient with id 1"));
+    }
+
 }

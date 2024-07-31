@@ -36,7 +36,13 @@ public class AppointmentsController {
     }
 
     @DeleteMapping(path = "/appointments/{id}")
-    public void deleteAppointmentById(int id){
+    public String deleteAppointmentById(@PathVariable int id) {
+        boolean ok = appointmentsService.deleteAppointmentById(id);
+        if (ok) {
+            return "Appointment with id" + id + "was deleted";
+        } else {
+            return "Error, we have a problem trying to delete appointment with id " + id;
+        }
     }
 
     @GetMapping(path = "/appointments")

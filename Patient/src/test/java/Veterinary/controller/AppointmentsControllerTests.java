@@ -1,12 +1,10 @@
 package Veterinary.controller;
 
-import Veterinary.controller.AppointmentsController;
 import Veterinary.model.Appointments;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import Veterinary.model.Patient;
 import Veterinary.service.AppointmentsService;
 
+import Veterinary.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,16 +17,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 
 @SpringJUnitConfig
@@ -100,5 +102,18 @@ public class AppointmentsControllerTests {
                 .andExpect(jsonPath("$.status").value("Earring"));
     }
 
+    @Test
+    public void test_deleteAppointmentById() throws Exception {
+        when(appointmentsService.deleteAppointmentById(1)).thenReturn(true);
+        mockMvc.perform(delete("/appointments/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Appointment with id" + 1 + "was deleted"));
+
+        when(appointmentsService.deleteAppointmentById(1)).thenReturn(false);
+
+        mockMvc.perform(delete("/appointments/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Error, we have a problem trying to delete appointment with id 1"));
+    }
 
 }

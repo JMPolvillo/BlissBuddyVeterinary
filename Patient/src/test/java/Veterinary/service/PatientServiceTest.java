@@ -1,11 +1,15 @@
 package Veterinary.service;
 
 import Veterinary.Repository.IPatientRepository;
+import Veterinary.Repository.AppointmentsRepository;
+import Veterinary.Repository.PatientRepository;
+import Veterinary.model.Appointments;
 import Veterinary.model.Patient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,6 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -23,8 +28,8 @@ class PatientServiceTest {
 private IPatientRepository iPatientRepository;
 
     @InjectMocks
-private PatientService patientService;
 
+    private PatientService patientService;
     private Patient patientBolita;
     private Patient patientLia;
     private final ArrayList<Patient> patientList = new ArrayList<>();
@@ -68,12 +73,17 @@ public void SetUp(){
             patientToUpdate.setName("UpdatedBolita");
             patientToUpdate.setTutorIsName("UpdatedIsabé");
 
-
             patientService.updatePatient(patientToUpdate, 1);
             assertEquals(1, patientToUpdate.getId());
             verify(iPatientRepository, times(1)).save(patientToUpdate);
         }
 
+    @Test
+    void deletePatientByIdTest() {
+        int id = 2;
+        patientService.deletePatientById(id);
+        verify(patientRepository).deleteById(id);
+    }
     }
 
 
