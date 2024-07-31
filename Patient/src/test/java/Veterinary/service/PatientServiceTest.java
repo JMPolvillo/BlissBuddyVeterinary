@@ -109,7 +109,7 @@ public void SetUp(){
     void deletePatientByIdTest() {
         int id = 2;
         patientService.deletePatientById(id);
-        verify(patientRepository).deleteById(id);
+        verify(iPatientRepository).deleteById(id);
     }
     }
 

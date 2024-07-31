@@ -87,6 +87,6 @@ class AppointmentsServiceTest {
     void deleteAppointmentByIdTest() {
         int id = 2;
         appointmentsService.deleteAppointmentById(id);
-        verify(appointmentsRepository).deleteById(id);
+        verify(iAppointmentsRepository).deleteById(id);
     }
 }
