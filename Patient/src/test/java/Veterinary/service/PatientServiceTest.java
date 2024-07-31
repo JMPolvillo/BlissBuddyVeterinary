@@ -2,7 +2,6 @@ package Veterinary.service;
 
 import Veterinary.Repository.IPatientRepository;
 import Veterinary.model.Patient;
-import Veterinary.model.PatientDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,7 +12,6 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

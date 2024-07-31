@@ -53,6 +53,6 @@ public class Patient {
 
 
 @OneToMany(mappedBy = "patient")
-private List<Appointments> appointments = new ArrayList<>();
+private List<Appointments> appointments;
 
 }
