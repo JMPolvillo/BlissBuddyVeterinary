@@ -20,17 +20,17 @@ import static org.mockito.Mockito.*;
 class PatientServiceTest {
 
     @Mock
-private IPatientRepository iPatientRepository;
+    private IPatientRepository iPatientRepository;
 
     @InjectMocks
-private PatientService patientService;
+    private PatientService patientService;
 
     private Patient patientBolita;
     private Patient patientLia;
     private final ArrayList<Patient> patientList = new ArrayList<>();
 
     @BeforeEach
-public void SetUp(){
+    public void SetUp(){
         MockitoAnnotations.openMocks(this);
 
         patientBolita = new Patient();
@@ -59,23 +59,19 @@ public void SetUp(){
     }
 
 
-        @Test
-        void updatePatient() {
-            when(iPatientRepository.save(any(Patient.class))).thenReturn(patientBolita);
+    @Test
+    void updatePatient() {
+        when(iPatientRepository.save(any(Patient.class))).thenReturn(patientBolita);
 
-            Patient patientToUpdate = new Patient();
-            patientToUpdate.setNumberId(1);
-            patientToUpdate.setName("UpdatedBolita");
-            patientToUpdate.setTutorIsName("UpdatedIsabé");
+        Patient patientToUpdate = new Patient();
+        patientToUpdate.setNumberId(1);
+        patientToUpdate.setName("UpdatedBolita");
+        patientToUpdate.setTutorIsName("UpdatedIsabé");
 
 
-            patientService.updatePatient(patientToUpdate, 1);
-            assertEquals(1, patientToUpdate.getId());
-            verify(iPatientRepository, times(1)).save(patientToUpdate);
-        }
-
+        patientService.updatePatient(patientToUpdate, 1);
+        assertEquals(1, patientToUpdate.getId());
+        verify(iPatientRepository, times(1)).save(patientToUpdate);
     }
 
-
-
-
+}

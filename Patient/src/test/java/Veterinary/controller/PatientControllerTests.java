@@ -1,5 +1,6 @@
 package Veterinary.controller;
 
+import Veterinary.controller.PatientController;
 import Veterinary.model.Patient;
 import Veterinary.service.PatientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,19 +10,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import java.util.Optional;
 
 class PatientControllerTests {
 
@@ -34,6 +40,7 @@ class PatientControllerTests {
 	private MockMvc mockMvc;
 	private Patient patientBolita;
 	private Patient patientLia;
+	private ArrayList<Patient> patientList;
 
 	@BeforeEach
 	void setUp() {
@@ -43,12 +50,12 @@ class PatientControllerTests {
 		patientBolita = new Patient();
 		patientBolita.setId(1);
 		patientBolita.setName("Bolita");
-		patientBolita.setAge(5);
+		patientBolita.setAge(4);
 		patientBolita.setSex("Male");
 		patientBolita.setRace("Belier");
 		patientBolita.setNumberId(4538);
 		patientBolita.setTutorIsName("Isabé");
-		patientBolita.setTutorIsLastName("Gutierrez"); // Updated here
+		patientBolita.setTutorIsLastName("Rodriguez");
 		patientBolita.setTutorPhone(658986742);
 
 		patientLia = new Patient();
@@ -77,7 +84,29 @@ class PatientControllerTests {
 	}
 
 	@Test
-	public void getPatientById() throws Exception {
+	void createTestPatient() throws Exception {
+		when(patientService.createPatient(any(Patient.class))).thenReturn(patientBolita);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String patientJson = objectMapper.writeValueAsString(patientBolita);
+
+		mockMvc.perform(post("/patient")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(patientJson))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Bolita"))
+				.andExpect(jsonPath("$.age").value(4))
+				.andExpect(jsonPath("$.sex").value("Male"))
+				.andExpect(jsonPath("$.race").value("Belier"))
+				.andExpect(jsonPath("$.numberId").value("4538"))
+				.andExpect(jsonPath("$.tutorIsName").value("Isabé"))
+				.andExpect(jsonPath("$.tutorIsLastName").value("Rodriguez"))
+				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
+	}
+
+	@Test
+	public void test_getPatientById() throws Exception {
 		when(patientService.getPatientById(2)).thenReturn(Optional.of(patientLia));
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -97,25 +126,18 @@ class PatientControllerTests {
 	}
 
 	@Test
-	void createTestPatient() throws Exception {
-		when(patientService.createPatient(any(Patient.class))).thenReturn(patientBolita);
+	public void test_deletePatientsById() throws Exception {
+		when(patientService.deletePatientById(1)).thenReturn(true);
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		String patientJson = objectMapper.writeValueAsString(patientBolita);
-
-		mockMvc.perform(post("/patients")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(patientJson))
+		mockMvc.perform(delete("/patients/1"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.name").value("Bolita"))
-				.andExpect(jsonPath("$.age").value(5))
-				.andExpect(jsonPath("$.sex").value("Male"))
-				.andExpect(jsonPath("$.race").value("Belier"))
-				.andExpect(jsonPath("$.numberId").value("4538"))
-				.andExpect(jsonPath("$.tutorIsName").value("Isabé"))
-				.andExpect(jsonPath("$.tutorIsLastName").value("Gutierrez"))
-				.andExpect(jsonPath("$.tutorPhone").value("658986742"));
+				.andExpect(content().string("Patient with id" + 1 + "was deleted"));
+
+		when(patientService.deletePatientById(1)).thenReturn(false);
+
+		mockMvc.perform(delete("/patients/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Error, we have a problem trying to delete patient with id 1"));
 	}
 
 }

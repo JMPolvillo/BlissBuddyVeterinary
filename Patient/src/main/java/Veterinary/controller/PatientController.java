@@ -63,7 +63,7 @@ public class PatientController {
         if (ok) {
             return "Patient with id" + id + "was deleted";
         } else {
-            return "Error, we have a problem to delete patient with id " + id;
+            return "Error, we have a problem trying to delete patient with id " + id;
         }
     }
 
