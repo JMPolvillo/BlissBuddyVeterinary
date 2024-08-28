@@ -1,14 +1,14 @@
-#Imagen que descargara de Docker Hub con la version correcta de Java
-FROM amazoncorretto:21
+# Utilizar la imagen oficial de OpenJDK 21
+FROM openjdk:21-jdk-slim
 
-#Informar en que puerto se expone el contenedor (es a modo informativo)
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Copiar el archivo JAR de la aplicación al contenedor
+COPY target/*.jar app.jar
+
+# Exponer el puerto en el que la aplicación se ejecuta
 EXPOSE 8080
 
-#Crear un directorio raiz de nuestro contenedor
-WORKDIR /root
-
-#Copiar el código fuente (*.jar) dentro del directorio raiz que creamos para el contenedor
-COPY target/demo-0.0.1-SNAPSHOT.jar /src/demo-0.0.1-SNAPSHOT.jar
-
-#Levantar nuestra aplicacio cuando el contenedor inicie
-ENTRYPOINT ["java","-jar","/src/demo-0.0.1-SNAPSHOT.jar"]
+# Comando para ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]
